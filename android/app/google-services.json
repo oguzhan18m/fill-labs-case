@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "528134879664",
+    "project_id": "fill-labs-case",
+    "storage_bucket": "fill-labs-case.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528134879664:android:527c0808bc32defbe6be75",
+        "android_client_info": {
+          "package_name": "com.filllabscase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYgQsg1R-qkKu-NkvzmZze1kW4I3ivkSQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
