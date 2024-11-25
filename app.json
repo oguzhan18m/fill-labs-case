@@ -38,15 +38,6 @@
         {
           "fonts": ["./assets/fonts/Manrope-Regular.ttf"]
         }
-      ],
-      "@react-native-firebase/app",
-      [
-        "expo-build-properties",
-        {
-          "ios": {
-            "useFrameworks": "static"
-          }
-        }
       ]
     ],
     "experiments": {

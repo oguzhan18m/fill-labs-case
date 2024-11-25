@@ -3,9 +3,9 @@ import { Typography } from "./ui/Typography";
 import { Chip } from "./ui/Chip";
 import Icon from "@expo/vector-icons/MaterialIcons";
 import DashedLine from "react-native-dashed-line";
-import { FileCardDropDown } from "./FileCardDropDown";
 import moment from "moment";
 import { FileItem, FileStatus } from "@/store/useDataStore";
+import { FileCardDropDown } from "./FileCardDropDown";
 
 export type FileCardProps = {
   file: FileItem;

@@ -1,8 +1,11 @@
-import * as DropdownMenu from "zeego/dropdown-menu";
-import Icon from "@expo/vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
 import { DetailPageTabs } from "@/app/(tabs)/(search)/details";
 import useDataStore, { FileStatus } from "@/store/useDataStore";
+import { StyleSheet, View } from "react-native";
+import { useRef } from "react";
+import { MenuView } from "@react-native-menu/menu";
+
+import Icon from "@expo/vector-icons/MaterialIcons";
 
 interface DropDownProps {
   itemId: number;
@@ -10,10 +13,32 @@ interface DropDownProps {
 
 export const FileCardDropDown = ({ itemId }: DropDownProps) => {
   const router = useRouter();
+  const menuRef = useRef<any>(null);
   const { mockData, toggleStatus } = useDataStore();
   const file = mockData.find((data) => data.id === itemId);
 
+  const handlePressAction = ({ nativeEvent }: { nativeEvent: any }) => {
+    console.log("nativeEvent", JSON.stringify(nativeEvent));
+    switch (nativeEvent.event) {
+      case "go-detail":
+        handleItemPress(itemId, DetailPageTabs.INFO);
+        break;
+      case "change-status-file":
+        handleChangeStatus();
+        break;
+      case "go-tab-b":
+        handleItemPress(itemId, DetailPageTabs.TAB_B);
+        break;
+      case "go-tab-c":
+        handleItemPress(itemId, DetailPageTabs.TAB_C);
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleItemPress = (id: number, tab: DetailPageTabs) => {
+    console.log("item press", id, tab);
     router.push(`/(tabs)/details?tab=${tab}&id=${id}` as any);
   };
 
@@ -22,46 +47,53 @@ export const FileCardDropDown = ({ itemId }: DropDownProps) => {
   };
 
   return (
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger>
-        <Icon name="more-vert" size={30} color="black" />
-      </DropdownMenu.Trigger>
-      <DropdownMenu.Content>
-        <DropdownMenu.Label
-          placeholder="Options"
-          onPointerEnterCapture={() => {}}
-          onPointerLeaveCapture={() => {}}
-        >
-          Seçenekler
-        </DropdownMenu.Label>
-
-        <DropdownMenu.Item
-          key="item-1"
-          onSelect={() => handleItemPress(itemId, DetailPageTabs.INFO)}
-        >
-          <DropdownMenu.ItemTitle>Dosya detayına git</DropdownMenu.ItemTitle>
-        </DropdownMenu.Item>
-
-        <DropdownMenu.Item key="item-2" onSelect={handleChangeStatus}>
-          <DropdownMenu.ItemTitle>
-            {file?.status === FileStatus.OPEN ? "Dosyayı kapat" : "Dosyayı aç"}
-          </DropdownMenu.ItemTitle>
-        </DropdownMenu.Item>
-
-        <DropdownMenu.Item
-          key="item-3"
-          onSelect={() => handleItemPress(itemId, DetailPageTabs.TAB_B)}
-        >
-          <DropdownMenu.ItemTitle>Tab B'ye git</DropdownMenu.ItemTitle>
-        </DropdownMenu.Item>
-
-        <DropdownMenu.Item
-          key="item-4"
-          onSelect={() => handleItemPress(itemId, DetailPageTabs.TAB_C)}
-        >
-          <DropdownMenu.ItemTitle>Tab C'ye git</DropdownMenu.ItemTitle>
-        </DropdownMenu.Item>
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
+    <MenuView
+      title="Menu Title"
+      onPressAction={handlePressAction}
+      actions={[
+        {
+          id: "go-detail",
+          title: "Dosya detayına git",
+          titleColor: "#171D1E",
+        },
+        {
+          id: "change-status-file",
+          title:
+            file?.status === FileStatus.OPEN ? "Dosyayı kapat" : "Dosyayı aç",
+          titleColor: "#171D1E",
+        },
+        {
+          id: "go-tab-b",
+          title: "TAB B'ye git",
+          titleColor: "#171D1E",
+        },
+        {
+          id: "go-tab-c",
+          title: "TAB C'ye git",
+          titleColor: "#171D1E",
+        },
+      ]}
+      shouldOpenOnLongPress={false}
+    >
+      <View style={styles.button}>
+        <Icon
+          name="more-vert"
+          size={20}
+          onPress={() => menuRef.current?.show()}
+        />
+      </View>
+    </MenuView>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: "white",
+    borderRadius: 100,
+    padding: 5,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+  },
+});
